@@ -16,12 +16,13 @@ const popUpProfile = document.querySelector(".profile__edit-button")
 const editProfileForm = document.querySelector("#edit-popup") 
 const closeProfileBtn = editProfileForm.querySelector(".popup__close")
 
-let profileNameInput = editProfileForm.querySelector(".popup__input_type_name")
-let profileDescriptionInput = editProfileForm.querySelector(".popup__input_type_description")
+const profileNameInput = editProfileForm.querySelector(".popup__input_type_name")
+const profileDescriptionInput = editProfileForm.querySelector(".popup__input_type_description")
 
 const popUpAddCard = document.querySelector(".profile__add-button")
 const cardForm = document.querySelector("#new-card-popup")
 const closeCardForm = cardForm.querySelector(".popup__close")
+
 
 const bigImage = document.querySelector("#image-popup")
 
@@ -99,8 +100,8 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
 
-  let nameInput = document.querySelector(".profile__title");
-  let jobInput = document.querySelector(".profile__description");
+  const nameInput = document.querySelector(".profile__title");
+  const jobInput = document.querySelector(".profile__description");
 
   nameInput.textContent = profileNameInput.value;
   jobInput.textContent = profileDescriptionInput.value ;
@@ -112,11 +113,12 @@ function handleCardFormSubmit(evt){
     evt.preventDefault();
 
 
-    let nameInput = document.querySelector(".popup__input_type_card-name");
-    let linkInput = document.querySelector(".popup__input_type_url");
+    const nameInput = document.querySelector(".popup__input_type_card-name");
+    const linkInput = document.querySelector(".popup__input_type_url");
 
    
     renderCard(nameInput.value, linkInput.value)
+    document.querySelector("#new-card-form").reset()
     closeModal(cardForm);
 }
 
