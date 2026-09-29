@@ -1,5 +1,5 @@
 
-let initialCards = [
+const initialCards = [
     {name: "Valle de Yosemite",link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg"},
     {name: "Lago Louise",link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg"},
     {name: "Montañas Calvas",link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg"},
@@ -12,53 +12,55 @@ let initialCards = [
 
 
 
-const popUpProfile = document.querySelector(".profile__edit-button")
-const editProfileForm = document.querySelector("#edit-popup") 
-const closeProfileBtn = editProfileForm.querySelector(".popup__close")
+const ProfileEditBtn = document.querySelector(".profile__edit-button")
+const popUpEditProfile = document.querySelector("#edit-popup") 
+const editPopupCloseButton = popUpEditProfile.querySelector(".popup__close")
 
-const profileNameInput = editProfileForm.querySelector(".popup__input_type_name")
-const profileDescriptionInput = editProfileForm.querySelector(".popup__input_type_description")
+const profileNameInput = popUpEditProfile.querySelector(".popup__input_type_name")
+const profileDescriptionInput = popUpEditProfile.querySelector(".popup__input_type_description")
 
-const popUpAddCard = document.querySelector(".profile__add-button")
-const cardForm = document.querySelector("#new-card-popup")
-const closeCardForm = cardForm.querySelector(".popup__close")
-
-
-const bigImage = document.querySelector("#image-popup")
-
+const profileAddButton = document.querySelector(".profile__add-button")
+const newCardPopup = document.querySelector("#new-card-popup")
+const newCardPopupCloseButton = newCardPopup.querySelector(".popup__close")
 
 
 const cardContainer = document.querySelector(".cards__list")
 const cardTemplate = cardContainer.querySelector("#card-template").content.querySelector(".card")
 
 
+const profileName = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+
+const popUpImage = document.querySelector("#image-popup")
+const imagePopupImage = popUpImage.querySelector(".popup__image")
+const imagePopupCaption = popUpImage.querySelector(".popup__caption");
+const imagePopupCloseButton = popUpImage.querySelector(".popup__close")
+
 initialCards.forEach(function (card){
     renderCard(card.name, card.link)
 });
 
-popUpProfile.addEventListener("click",handleOpenEditModal);
+ProfileEditBtn.addEventListener("click",handleOpenEditModal);
 
-popUpAddCard.addEventListener("click", handleOpenCardModal);
+profileAddButton.addEventListener("click", handleOpenCardModal);
 
-
-
-closeProfileBtn.addEventListener("click", ()=>{
-    closeModal(editProfileForm);
+editPopupCloseButton.addEventListener("click", ()=>{
+    closeModal(popUpEditProfile);
 
 });
 
-closeCardForm.addEventListener("click",() =>{ 
-    closeModal(cardForm)
+newCardPopupCloseButton.addEventListener("click",() =>{ 
+    closeModal(newCardPopup)
 
 });
 
+popUpEditProfile.addEventListener("submit",handleProfileFormSubmit);
 
+newCardPopup.addEventListener("submit", handleCardFormSubmit);
 
-editProfileForm.addEventListener("submit",handleProfileFormSubmit);
-
-cardForm.addEventListener("submit", handleCardFormSubmit);
-
-
+imagePopupCloseButton.addEventListener("click", ()=>{
+        closeModal(popUpImage)
+})
 function openModal(element){
     element.classList.add("popup_is-opened");
 }
@@ -68,45 +70,42 @@ function closeModal(element){
 }
 
 function fillProfileForm(){
-    profileNameInput.value = document.querySelector(".profile__title").textContent;
-    profileDescriptionInput.value = document.querySelector(".profile__description").textContent;
+    profileNameInput.value = profileName.textContent;
+    profileDescriptionInput.value = profileDescription.textContent;
 }
-
-
 
 function handleOpenEditModal(){
-    openModal(editProfileForm);
+    openModal(popUpEditProfile);
     fillProfileForm();
 }
-function handleOpenCardModal(){
-    openModal(cardForm);
-}
-function handleOpenImage(img, title){
-    const bigImg = bigImage.querySelector(".popup__image")
-    const imgCaption = bigImage.querySelector(".popup__caption");
-    const bigImgCloseBtn = bigImage.querySelector(".popup__close")
-    bigImg.src = img
-    imgCaption.textContent = title
 
-    bigImgCloseBtn.addEventListener("click", ()=>{
-        closeModal(bigImage)
-    })
-    
-    openModal(bigImage);
+function handleOpenCardModal(){
+    openModal(newCardPopup);
 }
+
+function handleOpenImage(img, title){
+
+    imagePopupImage.src = img
+    imagePopupImage.alt = title
+    imagePopupCaption.textContent = title
+
+   
+    
+    openModal(popUpImage);
+}
+
 
 function handleProfileFormSubmit(evt) {
 
   evt.preventDefault();
 
 
-  const nameInput = document.querySelector(".profile__title");
-  const jobInput = document.querySelector(".profile__description");
 
-  nameInput.textContent = profileNameInput.value;
-  jobInput.textContent = profileDescriptionInput.value ;
 
-  closeModal(editProfileForm);
+  profileName.textContent = profileNameInput.value;
+  profileDescription.textContent = profileDescriptionInput.value ;
+
+  closeModal(popUpEditProfile);
 }
 
 function handleCardFormSubmit(evt){
@@ -119,7 +118,7 @@ function handleCardFormSubmit(evt){
    
     renderCard(nameInput.value, linkInput.value)
     document.querySelector("#new-card-form").reset()
-    closeModal(cardForm);
+    closeModal(newCardPopup);
 }
 
 function handleLikeBtn(element){
@@ -158,7 +157,7 @@ function getCardElement(name = "Sin título", link = "./images/placeholder.jpg")
 function renderCard(name, link){
 
  const newCard = getCardElement(name, link )
- cardContainer.append(newCard)
+ cardContainer.prepend(newCard)
 
 }
 
